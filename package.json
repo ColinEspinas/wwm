@@ -1,0 +1,34 @@
+{
+  "name": "wwm",
+  "version": "1.0.0",
+  "description": "A easy and customizable windows manager for the web",
+  "source": "src/*.js",
+  "main": "dist/wwm.js",
+  "browser": "dist/wwm.umd.js",
+  "module": "dist/wwm.module.js",
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -w -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ColinEspinas/wwm.git"
+  },
+  "keywords": [
+    "windows",
+    "manager"
+  ],
+  "author": "Colin Espinas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ColinEspinas/wwm/issues"
+  },
+  "homepage": "https://github.com/ColinEspinas/wwm#readme",
+  "devDependencies": {
+    "rollup": "^2.10.9",
+    "rollup-plugin-terser": "^6.0.1"
+  },
+  "dependencies": {
+    "shortid": "^2.2.15"
+  }
+}
