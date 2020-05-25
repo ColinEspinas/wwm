@@ -32,7 +32,9 @@
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-sourcemaps": "^0.6.2",
-    "rollup-plugin-terser": "^6.0.1"
+    "rollup-plugin-terser": "^6.0.1",
+    "semver": ">=4.3.2",
+    "bl": ">=0.9.5"
   },
   "dependencies": {
     "uuid": "^8.1.0"
