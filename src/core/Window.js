@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid'
 import EventHandler from './events/EventHandler';
 import Program from './Program';
 import WWM from './WWM';
@@ -9,7 +10,6 @@ import WindowEvent from './events/types/WindowEvent';
  * Window class
  */
 export default class Window extends EventHandler {
-
 	/**
 	 * @param {Program} program 
 	 * @param {object} options 
@@ -19,6 +19,7 @@ export default class Window extends EventHandler {
 		this.subscribe(this);
 
 		this.program = program;
+		this.id = this.program.name + "-" + nanoid();
 
 		const defaults = {
 			x: 0,
@@ -35,7 +36,9 @@ export default class Window extends EventHandler {
 		this.width = options.width;
 		this.height = options.height;
 		this.visible = options.visible;
+		this.style = {};
 
+		// Creating Window HTML Element and adding it as a child to the WWM instace container
 		this.element = document.createElement("div");
 		this.program.parent.container.appendChild(this.element);
 
@@ -51,14 +54,17 @@ export default class Window extends EventHandler {
 	 * Intern function of the windows class. Called by the constructor to setup the default style of a window
 	 */
 	__setupStyle() {
-		this.element.setAttribute("style", `
-			position: absolute;
-			top: ${this.y}px;
-			left: ${this.x}px;
-			width: ${this.width};
-			height: ${this.height};
-			visible: ${this.visible};
-		`);
+		this.element.classList.add('WWM-Window');
+		this.element.id = this.id;
+
+		this.setStyles({
+			position: 'absolute',
+			top: `${this.y}px`,
+			left: `${this.x}px`,
+			width: `${this.width}`,
+			height: `${this.height}`,
+			visible: `${this.visible}`,
+		});
 	}
 
 	/**
@@ -81,14 +87,33 @@ export default class Window extends EventHandler {
 
 	/**
 	 * Resize the window and send a "WindowResize" event
-	 * @param {*} width 
-	 * @param {*} height 
+	 * @param {string} width Width of the window after resize. Need a unit (e.g. 100px)
+	 * @param {string} height Height of the window after resize. Need a unit (e.g. 100px)
 	 */
 	resize(width, height) {
 		this.width = width;
 		this.height = height;
-		this.element.style.width = this.width;
-		this.element.style.height = this.height;
+		this.setStyle('width', this.width);
+		this.setStyle('height', this.height);
 		this.emit(new WindowEvent("WindowResize", this));
+	}
+
+	/**
+	 * Set a CSS property for the window
+	 * @param {string} property 
+	 * @param {*} value 
+	 */
+	setStyle(property, value) {
+		this.element.style[property] = value;
+	}
+	
+	/**
+	 * Set CSS properties for the window
+	 * @param {Object} rules An object that describes the CSS rules to apply
+	 */
+	setStyles(rules) {
+		for (let [property, value] of Object.entries(rules)) {
+			this.element.style[property] = value;
+		}
 	}
 }

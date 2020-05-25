@@ -31,8 +31,8 @@ export default class WWMWallpaper extends Program {
 			height: parentStyle.height,
 		})
 
-		this.mainWindow.element.style.backgroundSize = "cover";
-		this.mainWindow.element.style.backgroundPosition = "center center";
+		this.mainWindow.setStyle("background-size", "cover");
+		this.mainWindow.setStyle("background-position", "center center");
 
 		this.setWallpaper(wpType, wpValue);
 	}
@@ -45,14 +45,14 @@ export default class WWMWallpaper extends Program {
 		this.on('WallpaperChange', e => {
 			switch (e.wallpaper.type) {
 				case "image":
-					this.mainWindow.element.style.backgroundImage = e.wallpaper.value;
+					this.mainWindow.setStyle("background-image", e.wallpaper.value);
 					break;
 			
 				case "color":
-					this.mainWindow.element.style.backgroundColor = e.wallpaper.value;
+					this.mainWindow.setStyle("background-color", e.wallpaper.value);
 					break;
 			}
-		})
+		});
 	}
 
 	/**
