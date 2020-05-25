@@ -36,7 +36,6 @@ export default class Window extends EventHandler {
 		this.width = options.width;
 		this.height = options.height;
 		this.visible = options.visible;
-		this.style = {};
 
 		// Creating Window HTML Element and adding it as a child to the WWM instace container
 		this.element = document.createElement("div");
