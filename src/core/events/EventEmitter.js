@@ -27,6 +27,8 @@ export default class EventEmitter {
 	 * @param {EventListener|EventHandler} listener 
 	 */
 	subscribe(listener) {
-		this.listeners.push(listener);
+		if (this.listeners.indexOf(listener) <= -1) {
+			this.listeners.push(listener);
+		}
 	}
 }

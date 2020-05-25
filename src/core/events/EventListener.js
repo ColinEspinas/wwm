@@ -15,6 +15,7 @@ export default class EventListener {
 	 * @param {Function} callback 
 	 */
 	on(name, callback) {
+		if (!this.eventsCallbacks[name]) this.eventsCallbacks[name] = {};
 		this.eventsCallbacks[name].on = callback;
 	}
 
@@ -24,6 +25,7 @@ export default class EventListener {
 	 * @param {Function} callback 
 	 */
 	once(name, callback) {
+		if (!this.eventsCallbacks[name]) this.eventsCallbacks[name] = {};
 		this.eventsCallbacks[name].once = callback;
 	}
 
@@ -32,7 +34,6 @@ export default class EventListener {
 	 * @param {WWMEvent} event 
 	 */
 	trigger(event) {
-		console.log(this.eventsCallbacks);
 		if (this.eventsCallbacks[event.name] && this.eventsCallbacks[event.name].once) {
 			this.eventsCallbacks[event.name].once(event);
 			this.eventsCallbacks[event.name].once = null;

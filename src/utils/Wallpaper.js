@@ -20,7 +20,10 @@ export default class Wallpaper {
 	 */
 	static validate(wp) {
 		if (Wallpaper.supported.indexOf(wp.type) > -1) {
-			return true;
+			if (wp.type === "image") {
+				wp.value = `url(${wp.value})`;
+			}
+			return true; 
 		}
 		else {
 			return false;

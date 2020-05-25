@@ -29,6 +29,7 @@ export default class EventHandler {
 	 * @param {Function} callback 
 	 */
 	on(name, callback) {
+		if (!this.eventsCallbacks[name]) this.eventsCallbacks[name] = {};
 		this.eventsCallbacks[name].on = callback;
 	}
 
@@ -38,6 +39,7 @@ export default class EventHandler {
 	 * @param {Function} callback 
 	 */
 	once(name, callback) {
+		if (!this.eventsCallbacks[name]) this.eventsCallbacks[name] = {};
 		this.eventsCallbacks[name].once = callback;
 	}
 
@@ -46,7 +48,6 @@ export default class EventHandler {
 	 * @param {WWMEvent} event 
 	 */
 	trigger(event) {
-		console.log(this.eventsCallbacks);
 		if (this.eventsCallbacks[event.name] && this.eventsCallbacks[event.name].once) {
 			this.eventsCallbacks[event.name].once(event);
 			this.eventsCallbacks[event.name].once = null;
@@ -60,6 +61,8 @@ export default class EventHandler {
 	 * @param {EventListener|EventHandler} listener 
 	 */
 	subscribe(listener) {
-		this.listeners.push(listener);
+		if (this.listeners.indexOf(listener) <= -1) {
+			this.listeners.push(listener);
+		}
 	}
 }

@@ -1,0 +1,69 @@
+import Program from '../core/Program';
+import Window from '../core/Window';
+import WWM from '../core/WWM';
+import Wallpaper from '../utils/Wallpaper';
+
+// Event types:
+import WallpaperEvent from '../core/events/types/WallpaperEvent';
+
+export default class WWMWallpaper extends Program {
+
+	/**
+	 * @param {WWM} parent 
+	 */
+	constructor(parent) {
+		super(parent);
+		this.name = "WWMWallpaper";
+	}
+
+	main() {
+
+		let wpType = this.args[0];
+		let wpValue = this.args[1];
+
+		this.parent.subscribe(this);
+		const parentStyle = getComputedStyle(this.parent.container);
+
+		this.mainWindow = new Window(this, {
+			x: 0,
+			y: 0,
+			width: parentStyle.width,
+			height: parentStyle.height,
+		})
+
+		this.mainWindow.element.style.backgroundSize = "cover";
+		this.mainWindow.element.style.backgroundPosition = "center center";
+
+		this.setWallpaper(wpType, wpValue);
+	}
+
+	events() {
+		this.on('ScreenResize', e => {
+			this.mainWindow.resize(e.screen.width, e.screen.height);
+		});
+		
+		this.on('WallpaperChange', e => {
+			switch (e.wallpaper.type) {
+				case "image":
+					this.mainWindow.element.style.backgroundImage = e.wallpaper.value;
+					break;
+			
+				case "color":
+					this.mainWindow.element.style.backgroundColor = e.wallpaper.value;
+					break;
+			}
+		})
+	}
+
+	/**
+	 * Set a wallpaper to the WWM instance
+	 * @param {string} type 
+	 * @param {string} value 
+	 */
+	setWallpaper(type, value) {
+		let wp = new Wallpaper(type, value);
+		if (Wallpaper.validate(wp)) {
+			this.emit(new WallpaperEvent('WallpaperChange', wp));
+		}
+	}
+}

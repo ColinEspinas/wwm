@@ -6,7 +6,17 @@
 	<title>WWM Demo</title>
 	<script src="../dist/wwm.umd.js"></script>
 </head>
+<style>
+	body {
+		margin: 0;
+		width: 100%;
+		height: 100vh;
+	}
+</style>
 <body>
-	
+	<script>
+		let system = new WWM.WWM();
+		system.setWallpaper("image", "./ressources/wallpaper.jpg");
+	</script>
 </body>
 </html>
