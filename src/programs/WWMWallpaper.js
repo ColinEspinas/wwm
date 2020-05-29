@@ -1,6 +1,6 @@
 import Program from '../core/Program';
 import Window from '../core/Window';
-import WWM from '../core/WWM';
+import System from '../core/System';
 import Wallpaper from '../utils/Wallpaper';
 
 // Event types:
@@ -9,7 +9,7 @@ import WallpaperEvent from '../core/events/types/WallpaperEvent';
 export default class WWMWallpaper extends Program {
 
 	/**
-	 * @param {WWM} parent 
+	 * @param {System} parent 
 	 */
 	constructor(parent) {
 		super(parent);
@@ -56,7 +56,7 @@ export default class WWMWallpaper extends Program {
 	}
 
 	/**
-	 * Set a wallpaper to the WWM instance
+	 * Set a wallpaper to the System instance
 	 * @param {string} type 
 	 * @param {string} value 
 	 */

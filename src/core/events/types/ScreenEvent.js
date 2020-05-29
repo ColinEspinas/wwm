@@ -7,7 +7,7 @@ export default class WallpaperEvent extends WWMEvent {
 
 	/**
 	 * @param {string} name
-	 * @param {HTMLElement} screen HTMLElement that represents the screen of a WWM instance (WWM.container in most cases)
+	 * @param {HTMLElement} screen HTMLElement that represents the screen of a System instance (System.container in most cases)
 	 */
 	constructor(name, screen) {
 		super(name);

@@ -1,6 +1,6 @@
 
 // Core imports:
-import WWM from './core/WWM';
+import System from './core/System';
 import Program from './core/Program';
 import Window from './core/Window';
 
@@ -18,13 +18,14 @@ import WindowEvent from './core/events/types/WindowEvent';
 
 // Utils imports:
 import Wallpaper from './utils/Wallpaper';
+import Theme from './utils/Theme';
 
 // Core Programs:
 import WWMWallpaper from './programs/WWMWallpaper';
 
 export default {
 	// Core:
-	WWM,
+	System,
 	Program,
 	Window,
 
@@ -42,6 +43,7 @@ export default {
 
 	// Utils:
 	Wallpaper,
+	Theme,
 
 	// Programs:
 	WWMWallpaper,

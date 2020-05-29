@@ -1,5 +1,5 @@
 import Wallpaper from '../utils/Wallpaper';
-import EventHandler from '../core/events/EventHandler';
+import EventHandler from './events/EventHandler';
 import Program from './Program';
 
 // Event types:
@@ -13,7 +13,7 @@ import WWMWallpaper from '../programs/WWMWallpaper';
 /**
  * Main system class for window managing
  */
-export default class WWM extends EventHandler {
+export default class System extends EventHandler {
 
 	/**
 	 * @param {Object} options 
@@ -44,7 +44,7 @@ export default class WWM extends EventHandler {
 	}
 
 	/**
-	 * Setup various core events on a WWM instance
+	 * Setup various core events on a System instance
 	 */
 	__setupEvents() {
 		// Core Events:
@@ -60,14 +60,14 @@ export default class WWM extends EventHandler {
 	}
 
 	/**
-	 * Execute core programs of the WWM instance
+	 * Execute core programs of the System instance
 	 */
 	__setupPrograms() {
 		this.exec(new WWMWallpaper(this), "color", "#000000");
 	}
 
 	/**
-	 * Execute a program given in parameter. Use this function to execute a program in your WWM instance.
+	 * Execute a program given in parameter. Use this function to execute a program in your System instance.
 	 * @param {Program} program 
 	 */
 	exec(program, ...args) {
@@ -78,7 +78,7 @@ export default class WWM extends EventHandler {
 	}
 
 	/**
-	 * Set a wallpaper to the WWM instance
+	 * Set a wallpaper to the System instance
 	 * @param {string} type 
 	 * @param {string} value 
 	 */

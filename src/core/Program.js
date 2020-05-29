@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import EventHandler from './events/EventHandler';
-import WWM from './WWM';
+import System from './System';
 import ProgramEvent from './events/types/ProgramEvent';
 
 /**
@@ -9,10 +9,10 @@ import ProgramEvent from './events/types/ProgramEvent';
 export default class Program extends EventHandler {
 
 	/**
-	 * @param {WWM} parent 
+	 * @param {System} parent 
 	 */
 	constructor(parent) {
-		// Setup event emitting to self and WWM instance
+		// Setup event emitting to self and System instance
 		super();
 		this.subscribe(this);
 		this.subscribe(parent);
@@ -26,7 +26,7 @@ export default class Program extends EventHandler {
 	}
 
 	/**
-	 * Execute the program on the parent WWM instance
+	 * Execute the program on the parent System instance
 	 * @param  {...any} args Argument list that is passed to the program
 	 */
 	exec(...args) {
@@ -47,7 +47,7 @@ export default class Program extends EventHandler {
 	}
 
 	/**
-	 * Emits a "ProgramEnd" event to the WWM instance to kill the program, call this function to end a program exectution
+	 * Emits a "ProgramEnd" event to the System instance to kill the program, call this function to end a program exectution
 	 */
 	end() {
 		this.emit(new ProgramEvent("ProgramEnd", this));

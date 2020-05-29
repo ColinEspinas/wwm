@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid'
 import EventHandler from './events/EventHandler';
 import Program from './Program';
-import WWM from './WWM';
+import System from './System';
 
 // Event types:
 import WindowEvent from './events/types/WindowEvent';
@@ -37,7 +37,7 @@ export default class Window extends EventHandler {
 		this.height = options.height;
 		this.visible = options.visible;
 
-		// Creating Window HTML Element and adding it as a child to the WWM instace container
+		// Creating Window HTML Element and adding it as a child to the System instace container
 		this.element = document.createElement("div");
 		this.program.parent.container.appendChild(this.element);
 
