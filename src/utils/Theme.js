@@ -20,5 +20,8 @@ export default class Theme {
 		link.rel = 'stylesheet';
 		link.type = 'text/css';
 		link.href = this.stylesheet;
+		if (!document.head.querySelector("#WWM-theme")) {
+			document.head.appendChild(link);
+		}
 	}
 }

@@ -9,6 +9,7 @@ import ScreenEvent from './events/types/ScreenEvent';
 
 // Programs:
 import WWMWallpaper from '../programs/WWMWallpaper';
+import TestProgram from '../programs/TestProgram';
 
 /**
  * Main system class for window managing
@@ -53,6 +54,11 @@ export default class System extends EventHandler {
 			e.program.main();
 		});
 
+		this.on("ProgramEnd", e => {
+			this.programs.splice(this.programs.findIndex((value) => value.id === e.program.id), 1);
+			console.log("Program closed");
+		});
+
 		// DOM Window Events:
 		window.addEventListener('resize', ()=> {
 			this.emit(new ScreenEvent("ScreenResize", this.container));
@@ -63,7 +69,8 @@ export default class System extends EventHandler {
 	 * Execute core programs of the System instance
 	 */
 	__setupPrograms() {
-		this.exec(new WWMWallpaper(this), "color", "#000000");
+		this.exec(new WWMWallpaper(this), "image", "./ressources/wallpaper.jpg");
+		this.exec(new TestProgram(this));
 	}
 
 	/**
@@ -75,17 +82,5 @@ export default class System extends EventHandler {
 		program.subscribe(this);
 		program.args = args;
 		this.emit(new ProgramEvent('ProgramExec', program));
-	}
-
-	/**
-	 * Set a wallpaper to the System instance
-	 * @param {string} type 
-	 * @param {string} value 
-	 */
-	setWallpaper(type, value) {
-		let wp = new Wallpaper(type, value);
-		if (Wallpaper.validate(wp)) {
-			this.emit(new WallpaperEvent('WallpaperChange', wp));
-		}
 	}
 }

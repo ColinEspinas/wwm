@@ -29,8 +29,8 @@ export default class EventHandler {
 	 * @param {Function} callback 
 	 */
 	on(name, callback) {
-		if (!this.eventsCallbacks[name]) this.eventsCallbacks[name] = {};
-		this.eventsCallbacks[name].on = callback;
+		if (!this.eventsCallbacks[name]) this.eventsCallbacks[name] = { on: [], once: [] };
+		this.eventsCallbacks[name].on.push(callback);
 	}
 
 	/**
@@ -39,8 +39,8 @@ export default class EventHandler {
 	 * @param {Function} callback 
 	 */
 	once(name, callback) {
-		if (!this.eventsCallbacks[name]) this.eventsCallbacks[name] = {};
-		this.eventsCallbacks[name].once = callback;
+		if (!this.eventsCallbacks[name]) this.eventsCallbacks[name] = { on: [], once: [] };
+		this.eventsCallbacks[name].once.push(callback);
 	}
 
 	/**
@@ -49,11 +49,11 @@ export default class EventHandler {
 	 */
 	trigger(event) {
 		if (this.eventsCallbacks[event.name] && this.eventsCallbacks[event.name].once) {
-			this.eventsCallbacks[event.name].once(event);
-			this.eventsCallbacks[event.name].once = null;
+			this.eventsCallbacks[event.name].once.map(cb => cb(event));
+			this.eventsCallbacks[event.name].once = [];
 		}
 		if (this.eventsCallbacks[event.name] && this.eventsCallbacks[event.name].on)
-			this.eventsCallbacks[event.name].on(event);
+			this.eventsCallbacks[event.name].on.map(cb => cb(event));
 	}
 
 	/**
