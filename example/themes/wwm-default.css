@@ -11,10 +11,10 @@
 	border-radius: 10px;
 	color: #ffffff;
 	font-family: Arial, Helvetica, sans-serif;
-	/* transition: 
-		transform 200ms ease,
-		width 200ms ease,
-		height 200ms ease; */
+	transition: 
+		transform 100ms ease,
+		width 100ms ease,
+		height 100ms ease;
 }
 
 .WWM-Window .title-bar {

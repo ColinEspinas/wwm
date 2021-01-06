@@ -30,6 +30,7 @@ export default class Window extends EventHandler {
 			height: 100,
 			frame: true,
 			movable: true,
+			resizable: true,
 			visible: true,
 			title: program.name,
 			maximized: false,
@@ -42,6 +43,10 @@ export default class Window extends EventHandler {
 		this.width = options.width;
 		this.height = options.height;
 		this.visible = options.visible;
+
+		this.movable = options.movable;
+		this.resizable = options.resizable;
+
 		this.maximized = options.maximized;
 		this.minimized = options.minimized;
 		this.dragged = null;
@@ -114,12 +119,32 @@ export default class Window extends EventHandler {
 				this.emit(new WindowEvent('WindowMinimize', this));
 			});
 
+			// Resizable
+			if (this.resizable) {
+				this.element.style.resize = 'both';
+			}
+
 			const titlebarElement = this.element.querySelector(".title-bar");
 			let transition = '';
 
+			const resizeObserver = new ResizeObserver(entries => {
+				if (this.resizable) {
+					transition = this.element.style.transition;
+					this.element.style.transition = 'none';
+					this.body.style.pointerEvents = 'none';
+					console.log(entries);
+				}
+			});
+			resizeObserver.observe(this.element);
+
+			this.element.addEventListener("onresize", e => {
+				console.log('re')
+				
+			});
+
 			titlebarElement.addEventListener("mousedown", e => {
 				e.preventDefault();
-				if (e.target === titlebarElement) {
+				if (e.target === titlebarElement && this.movable) {
 					this.dragged = {
 						windowX: this.x,
 						windowY: this.y,
@@ -139,20 +164,18 @@ export default class Window extends EventHandler {
 			})
 
 			document.addEventListener("mouseup", e => {
-				this.dragged = null;
-				this.element.style.transition = transition;
-				this.body.style.pointerEvents = 'all';
+				if (this.dragged) {
+					this.dragged = null;
+					this.element.style.transition = transition;
+					this.body.style.pointerEvents = 'all';
+				}
 			});
 
 			// Drag window if mousedown on titlebar
 			document.addEventListener("mousemove", e => {
 				e.preventDefault();
 				if (this.dragged) {
-					this.move(
-						this.dragged.windowX + (e.clientX - this.dragged.mouseX),
-						this.dragged.windowY + (e.clientY - this.dragged.mouseY)
-					);
-					this.emit(new WindowEvent("WindowDrag", this));
+					this.emit(new WindowEvent("WindowDrag", this, e.clientX, e.clientY));
 				}
 			});
 		}
@@ -209,6 +232,13 @@ export default class Window extends EventHandler {
 			if (this.maximized) {
 				this.emit(new WindowEvent('WindowUnmaximize', this));
 			}
+		});
+
+		this.on("WindowDrag", e => {
+			this.move(
+				this.dragged.windowX + (e.params[0] - this.dragged.mouseX),
+				this.dragged.windowY + (e.params[1] - this.dragged.mouseY)
+			);
 		});
 
 		this.program.on("ScreenResize", e => {
@@ -277,4 +307,9 @@ export default class Window extends EventHandler {
 
 	get widthPx() { return this.width + 'px'; }
 	get heightPx() { return this.height + 'px'; }
+
+	setTitle(value) { 
+		this.title = value;
+		this.element.querySelector('.title-bar-program-name').textContent = value;
+	}
 }
